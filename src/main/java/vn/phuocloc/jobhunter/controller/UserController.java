@@ -42,12 +42,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("userDelete");
     }
 
-    // cái này có phạm vi hoạt động trong filee usercontroller thôi
-    @ExceptionHandler(value = IdInvalidException.class)
-    public ResponseEntity<String> handleIdException(IdInvalidException idInvalidException) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(idInvalidException.getMessage());
-    }
-
     @GetMapping("/users/{id}")
     public ResponseEntity<User> fetchUserById(@PathVariable("id") long id) throws IdInvalidException {
 
