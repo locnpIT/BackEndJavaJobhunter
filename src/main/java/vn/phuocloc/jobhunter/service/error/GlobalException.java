@@ -9,14 +9,12 @@ import vn.phuocloc.jobhunter.domain.RestResponse;
 
 @RestControllerAdvice
 public class GlobalException {
-
     @ExceptionHandler(value = IdInvalidException.class)
-    public ResponseEntity<RestResponse<Object>> handleIdException(IdInvalidException idInvalidException) {
-        RestResponse<Object> res = new RestResponse<>();
+    public ResponseEntity<RestResponse<Object>> handleIdException(IdInvalidException idException) {
+        RestResponse<Object> res = new RestResponse<Object>();
         res.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        res.setError(idInvalidException.getMessage());
-        res.setMessage("idInvalidException");
+        res.setError(idException.getMessage());
+        res.setMessage("IdInvalidException");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
-
     }
 }

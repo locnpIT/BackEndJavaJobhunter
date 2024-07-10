@@ -4,9 +4,9 @@ public class RestResponse<T> {
     private int statusCode;
     private String error;
 
-    // message co the la String hoac arraylist
+    // message có thể là string, hoặc arrayList
     private Object message;
-    private T Data;
+    private T data;
 
     public int getStatusCode() {
         return statusCode;
@@ -33,11 +33,11 @@ public class RestResponse<T> {
     }
 
     public T getData() {
-        return Data;
+        return data;
     }
 
     public void setData(T data) {
-        Data = data;
+        this.data = data;
     }
 
 }
