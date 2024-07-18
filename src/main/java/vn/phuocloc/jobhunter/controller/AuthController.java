@@ -1,6 +1,5 @@
 package vn.phuocloc.jobhunter.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,16 +20,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginDTO> login(@RequestBody LoginDTO loginDTO) {
-        // Nạp input gồm username và password vào security
+    public ResponseEntity<LoginDTO> login(@RequestBody LoginDTO loginDto) {
+        // Nạp input gồm username/password vào Security
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                loginDTO.getUsername(), loginDTO.getPassword());
+                loginDto.getUsername(), loginDto.getPassword());
 
-        // xác thực người dùng => viết hàm loadbyusername
+        // xác thực người dùng => cần viết hàm loadUserByUsername
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        
-
-        return ResponseEntity.status(HttpStatus.OK).body(loginDTO);
+        return ResponseEntity.ok().body(loginDto);
     }
-
 }

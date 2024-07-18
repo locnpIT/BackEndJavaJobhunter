@@ -1,7 +1,6 @@
 package vn.phuocloc.jobhunter.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +19,8 @@ import vn.phuocloc.jobhunter.service.error.IdInvalidException;
 
 @RestController
 public class UserController {
-
     private final UserService userService;
+
     private final PasswordEncoder passwordEncoder;
 
     public UserController(UserService userService, PasswordEncoder passwordEncoder) {
@@ -29,49 +28,45 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // @GetMapping("/users/create")
-
     @PostMapping("/users")
-    public ResponseEntity<User> createNewUser(@RequestBody User postmanUser) {
-        String hashPassword = this.passwordEncoder.encode(postmanUser.getPassword());
-        postmanUser.setPassword(hashPassword);
-        User createUser = this.userService.handleCreateUser(postmanUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createUser);
-        // trong body chỉ được truyền đối tượng User bởi vì ResponseEntity<User>
+    public ResponseEntity<User> createNewUser(@RequestBody User postManUser) {
+        String hashPassword = this.passwordEncoder.encode(postManUser.getPassword());
+        postManUser.setPassword(hashPassword);
+        User ericUser = this.userService.handleCreateUser(postManUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ericUser);
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") long id) {
-        this.userService.deleteUserById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("userDelete");
-    }
-
-    @GetMapping("/users/{id}")
-    public ResponseEntity<User> fetchUserById(@PathVariable("id") long id) throws IdInvalidException {
-
+    public ResponseEntity<String> deleteUser(@PathVariable("id") long id)
+            throws IdInvalidException {
         if (id >= 1500) {
-            throw new IdInvalidException("ID phai nho hon 1500");
+            throw new IdInvalidException("Id khong lon hown 1501");
         }
 
-        Optional<User> userGet = this.userService.fetchById(id);
-        if (userGet.isPresent()) {
-            // return userGet.get();
-            return ResponseEntity.status(HttpStatus.OK).body(userGet.get());
-        }
-        return null;
+        this.userService.handleDeleteUser(id);
+        return ResponseEntity.ok("ericUser");
+        // return ResponseEntity.status(HttpStatus.OK).body("ericUser");
     }
 
+    // fetch user by id
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
+        User fetchUser = this.userService.fetchUserById(id);
+        // return ResponseEntity.ok(fetchUser);
+        return ResponseEntity.status(HttpStatus.OK).body(fetchUser);
+    }
+
+    // fetch all users
     @GetMapping("/users")
-    public ResponseEntity<List<User>> findAllUser() {
-        // return this.userService.findAllUsers();
-        return ResponseEntity.status(HttpStatus.OK).body(this.userService.findAllUsers());
+    public ResponseEntity<List<User>> getAllUser() {
+        // return ResponseEntity.ok(this.userService.fetchAllUser());
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.fetchAllUser());
     }
 
     @PutMapping("/users")
-    public ResponseEntity<User> updateUser(@RequestBody User userCreate) {
-        // return this.userService.handleUpdateUser(userCreate);
-        return ResponseEntity.status(HttpStatus.OK).body(this.userService.handleUpdateUser(userCreate));
-
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        User ericUser = this.userService.handleUpdateUser(user);
+        return ResponseEntity.ok(ericUser);
     }
 
 }

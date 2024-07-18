@@ -21,31 +21,35 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
-    public void deleteUserById(long id) {
+    public void handleDeleteUser(long id) {
         this.userRepository.deleteById(id);
     }
 
-    public Optional<User> fetchById(long id) {
-        return userRepository.findById(id);
+    public User fetchUserById(long id) {
+        Optional<User> userOptional = this.userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        }
+        return null;
     }
 
-    public List<User> findAllUsers() {
+    public List<User> fetchAllUser() {
         return this.userRepository.findAll();
+    }
+
+    public User handleUpdateUser(User reqUser) {
+        User currentUser = this.fetchUserById(reqUser.getId());
+        if (currentUser != null) {
+            currentUser.setEmail(reqUser.getEmail());
+            currentUser.setName(reqUser.getName());
+            currentUser.setPassword(reqUser.getPassword());
+            // update
+            currentUser = this.userRepository.save(currentUser);
+        }
+        return currentUser;
     }
 
     public User handleGetUserByUsername(String username) {
         return this.userRepository.findByEmail(username);
     }
-
-    public User handleUpdateUser(User userCreate) {
-        User userUpdate = this.fetchById(userCreate.getId()).get();
-        if (userUpdate != null) {
-            userUpdate.setEmail(userCreate.getEmail());
-            userUpdate.setPassword(userCreate.getPassword());
-            userUpdate.setName(userCreate.getName());
-            this.handleCreateUser(userUpdate);
-        }
-        return userUpdate;
-    }
-
 }

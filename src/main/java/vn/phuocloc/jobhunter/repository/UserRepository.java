@@ -7,9 +7,5 @@ import vn.phuocloc.jobhunter.domain.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
-    public User save(User user);
-
-    public User findByEmail(String email);
-
+    User findByEmail(String email);
 }
