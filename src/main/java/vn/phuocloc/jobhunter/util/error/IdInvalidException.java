@@ -1,9 +1,8 @@
-package vn.phuocloc.jobhunter.service.error;
+package vn.phuocloc.jobhunter.util.error;
 
 public class IdInvalidException extends Exception {
-    // constructor that accept a message
+    // Constructor that accepts a message
     public IdInvalidException(String message) {
         super(message);
     }
-
 }

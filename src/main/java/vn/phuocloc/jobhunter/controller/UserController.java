@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.phuocloc.jobhunter.domain.User;
 import vn.phuocloc.jobhunter.service.UserService;
-import vn.phuocloc.jobhunter.service.error.IdInvalidException;
+import vn.phuocloc.jobhunter.util.error.IdInvalidException;
 
 @RestController
 public class UserController {
