@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import vn.phuocloc.jobhunter.domain.dto.LoginDTO;
+import vn.phuocloc.jobhunter.domain.dto.RestLoginDTO;
 import vn.phuocloc.jobhunter.util.SecurityUtil;
 
 @RestController
@@ -24,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginDTO> login(@Valid @RequestBody LoginDTO loginDto) {
+    public ResponseEntity<RestLoginDTO> login(@Valid @RequestBody LoginDTO loginDto) {
         // Nạp input gồm username/password vào Security
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(), loginDto.getPassword());
@@ -33,8 +34,10 @@ public class AuthController {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // create a token
-        this.securityUtil.createToken(authentication);
+        String accessToken = this.securityUtil.createToken(authentication);
+        RestLoginDTO res = new RestLoginDTO();
+        res.setAccessToken(accessToken);
+        return ResponseEntity.ok().body(res);
 
-        return ResponseEntity.ok().body(loginDto);
     }
 }
