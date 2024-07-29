@@ -2,6 +2,8 @@ package vn.phuocloc.jobhunter.domain;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import vn.phuocloc.jobhunter.util.SecurityUtil;
 
 @Entity
 @Table(name = "companies")
@@ -27,6 +30,8 @@ public class Company {
 
     private String address;
     private String logo;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
@@ -34,9 +39,11 @@ public class Company {
 
     @PrePersist
     public void handleBeforeCreate() {
-        this.createdBy = "Phuoc Loc";
+        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
+                ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
         this.createdAt = Instant.now();
-        
+
     }
 
     public long getId() {
