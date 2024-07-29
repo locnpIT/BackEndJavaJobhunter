@@ -12,8 +12,6 @@ public class DateTimeFormatConfiguration implements WebMvcConfigurer {
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
         registrar.setUseIsoFormat(true);
         registrar.registerFormatters(registry);
-        
-    
     }
 
 }
