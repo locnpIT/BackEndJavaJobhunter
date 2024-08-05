@@ -23,6 +23,7 @@ import com.turkraft.springfilter.boot.Filter;
 import vn.phuocloc.jobhunter.domain.User;
 import vn.phuocloc.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.phuocloc.jobhunter.service.UserService;
+import vn.phuocloc.jobhunter.util.annotation.ApiMessage;
 import vn.phuocloc.jobhunter.util.error.IdInvalidException;
 
 @RestController
@@ -37,6 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
+    @ApiMessage(value = "create a new user")
     public ResponseEntity<User> createNewUser(@RequestBody User postManUser) {
         String hashPassword = this.passwordEncoder.encode(postManUser.getPassword());
         postManUser.setPassword(hashPassword);
@@ -45,6 +47,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
+    @ApiMessage("delete user")
     public ResponseEntity<String> deleteUser(@PathVariable("id") long id)
             throws IdInvalidException {
         if (id >= 1500) {
@@ -58,6 +61,7 @@ public class UserController {
 
     // fetch user by id
     @GetMapping("/users/{id}")
+    @ApiMessage(value = "fetch user by id")
     public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
         User fetchUser = this.userService.fetchUserById(id);
         // return ResponseEntity.ok(fetchUser);
@@ -66,6 +70,7 @@ public class UserController {
 
     // fetch all users
     @GetMapping("/users")
+    @ApiMessage(value = "fetch all user")
     public ResponseEntity<ResultPaginationDTO> getAllUser(
             @Filter Specification<User> spec,
             Pageable pageable) {
@@ -74,6 +79,7 @@ public class UserController {
     }
 
     @PutMapping("/users")
+    @ApiMessage(value = "update user")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         User ericUser = this.userService.handleUpdateUser(user);
         return ResponseEntity.ok(ericUser);
