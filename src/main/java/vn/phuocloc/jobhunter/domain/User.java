@@ -8,7 +8,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import vn.phuocloc.jobhunter.util.SecurityUtil;
 import vn.phuocloc.jobhunter.util.constant.GenderEnum;
 
 @Entity
@@ -18,7 +22,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+
+    @NotBlank(message = "Email không được để trống!")
     private String email;
+
+    @NotBlank(message = "Password không được để trống!")
     private String password;
 
     private int age;
@@ -126,6 +134,22 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @PrePersist
+    public void handleBeforeCreate() {
+        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
+                ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
+        this.createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void handleBeforeUpdate() {
+        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
+                ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
+        this.createdAt = Instant.now();
     }
 
 }

@@ -10,7 +10,7 @@ import vn.phuocloc.jobhunter.domain.dto.Meta;
 import vn.phuocloc.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.phuocloc.jobhunter.repository.CompanyRepository;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @Service
