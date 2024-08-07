@@ -43,6 +43,10 @@ public class UserService {
         return null;
     }
 
+    public User findByEmail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
+
     public ResultPaginationDTO fetchAllUser(Specification<User> spec, Pageable pageable) {
         Page<User> pageUser = this.userRepository.findAll(spec, pageable);
         ResultPaginationDTO rs = new ResultPaginationDTO();
