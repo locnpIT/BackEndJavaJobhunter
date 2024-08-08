@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
+import vn.phuocloc.jobhunter.domain.dto.RestLoginDTO;
+
 @Service
 public class SecurityUtil {
 
@@ -31,12 +33,15 @@ public class SecurityUtil {
     @Value("${phuocloc.jwt.base64-secret}")
     private String jwtKey;
 
-    @Value("${phuocloc.jwt.token-validity-in-seconds}")
-    private long jwtKeyExpiration;
+    @Value("${phuocloc.jwt.access-token-validity-in-seconds}")
+    private long accessTokenExpiration;
 
-    public String createToken(org.springframework.security.core.Authentication authentication) {
+    @Value("${phuocloc.jwt.refresh-token-validity-in-seconds}")
+    private long refreshTokenExpiration;
+
+    public String createAccessToken(org.springframework.security.core.Authentication authentication) {
         Instant now = Instant.now();
-        Instant validity = now.plus(this.jwtKeyExpiration, ChronoUnit.SECONDS);
+        Instant validity = now.plus(this.accessTokenExpiration, ChronoUnit.SECONDS);
 
         // @formatter:off
         JwtClaimsSet claims = JwtClaimsSet.builder()
@@ -50,6 +55,25 @@ public class SecurityUtil {
         claims)).getTokenValue();
 
     }
+
+    public String createRefreshToken(String email, RestLoginDTO dto) {
+        Instant now = Instant.now();
+        Instant validity = now.plus(this.refreshTokenExpiration, ChronoUnit.SECONDS);
+
+        // @formatter:off
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+        .issuedAt(now)
+        .expiresAt(validity)
+        .subject(email)
+        .claim("user", dto.getUser())
+        .build();
+        JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
+        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader,
+        claims)).getTokenValue();
+
+    } 
+
+
 
     /**
      * Get the login of the current user.
