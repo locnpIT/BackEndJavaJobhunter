@@ -2,12 +2,14 @@ package vn.phuocloc.jobhunter.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import vn.phuocloc.jobhunter.domain.dto.RestLoginDTO;
 import vn.phuocloc.jobhunter.domain.dto.RestLoginDTO.UserLogin;
 import vn.phuocloc.jobhunter.service.UserService;
 import vn.phuocloc.jobhunter.util.SecurityUtil;
+import vn.phuocloc.jobhunter.util.annotation.ApiMessage;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -39,7 +42,7 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<RestLoginDTO> login(@Valid @RequestBody LoginDTO loginDto) {
         // Nạp input gồm username/password vào Security
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -49,7 +52,7 @@ public class AuthController {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // create a token
-        String access_token = this.securityUtil.createAccessToken(authentication);
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         RestLoginDTO res = new RestLoginDTO();
@@ -59,6 +62,7 @@ public class AuthController {
                     currentUserDB.getEmail(), currentUserDB.getName());
             res.setUser(userLogin);
         }
+        String access_token = this.securityUtil.createAccessToken(authentication, res.getUser());
         res.setAccessToken(access_token);
 
         // create refreshToken
@@ -76,4 +80,22 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE, resCookie.toString())
                 .body(res);
     }
+
+    @GetMapping("/auth/account")
+    @ApiMessage("fetch account")
+    public ResponseEntity<RestLoginDTO.UserLogin> getAccount() {
+        String email = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
+
+        User currentUserDB = this.userService.handleGetUserByUsername(email);
+
+        RestLoginDTO.UserLogin userLogin = new RestLoginDTO.UserLogin();
+        if (currentUserDB != null) {
+            userLogin.setId(currentUserDB.getId());
+            userLogin.setEmail(currentUserDB.getEmail());
+            userLogin.setName(currentUserDB.getName());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userLogin);
+
+    }
+
 }
