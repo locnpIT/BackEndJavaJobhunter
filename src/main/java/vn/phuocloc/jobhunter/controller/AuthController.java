@@ -53,6 +53,7 @@ public class AuthController {
 
         // create a token
 
+        // set thông tin người dùng đăng nhập vào context (có thể sử dụng sau này)
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         RestLoginDTO res = new RestLoginDTO();

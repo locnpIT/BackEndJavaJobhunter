@@ -3,6 +3,8 @@ package vn.phuocloc.jobhunter.util;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -43,6 +45,11 @@ public class SecurityUtil {
             RestLoginDTO.UserLogin dto) {
         Instant now = Instant.now();
         Instant validity = now.plus(this.accessTokenExpiration, ChronoUnit.SECONDS);
+        
+        // hardcode permission (for testing)
+        List<String> listAuthority = new ArrayList<String>();
+        listAuthority.add("ROLE_USER_CREATE");
+        listAuthority.add("ROLE_USER_UPDATE");
 
         // @formatter:off
         JwtClaimsSet claims = JwtClaimsSet.builder()
@@ -50,6 +57,7 @@ public class SecurityUtil {
         .expiresAt(validity)
         .subject(authentication.getName())
         .claim("user", dto) // Thêm một claim tùy chỉnh có tên là "user", chứa thông tin về người đăng nhập, dto.getUser())
+        .claim("permission", listAuthority)
         .build();
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader,
