@@ -25,6 +25,7 @@ import vn.phuocloc.jobhunter.domain.dto.RestLoginDTO.UserLogin;
 import vn.phuocloc.jobhunter.service.UserService;
 import vn.phuocloc.jobhunter.util.SecurityUtil;
 import vn.phuocloc.jobhunter.util.annotation.ApiMessage;
+import vn.phuocloc.jobhunter.util.error.IdInvalidException;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -65,7 +66,7 @@ public class AuthController {
                     currentUserDB.getEmail(), currentUserDB.getName());
             res.setUser(userLogin);
         }
-        String access_token = this.securityUtil.createAccessToken(authentication, res.getUser());
+        String access_token = this.securityUtil.createAccessToken(authentication.getName(), res.getUser());
         res.setAccessToken(access_token);
 
         // create refreshToken
@@ -104,16 +105,45 @@ public class AuthController {
     @GetMapping("/auth/refresh")
     @ApiMessage("Get User by refresh token")
     // lay token dua vao cookie
-    public ResponseEntity<String> getRefreshToken(
-            @CookieValue(name = "refresh_token") String refresh_token) {
+    public ResponseEntity<RestLoginDTO> getRefreshToken(
+            @CookieValue(name = "refresh_token") String refresh_token) throws IdInvalidException {
 
         // check valid
         Jwt decodedToken = this.securityUtil
                 .checkValidRefreshToken(refresh_token);
         String email = decodedToken.getSubject();
+        // check user by token + email
+        User currentUser = this.userService.getUserByRefreshTokenAndEmail(refresh_token, email);
+        if (currentUser == null) {
+            throw new IdInvalidException("Refresh token is not valid");
+        }
 
-        return ResponseEntity.status(HttpStatus.OK).body(email);
+        // tao token moi, set refresh token giong nhu la cookie
 
+        RestLoginDTO res = new RestLoginDTO();
+        User currentUserDB = this.userService.handleGetUserByUsername(email);
+        if (currentUserDB != null) {
+            RestLoginDTO.UserLogin userLogin = new RestLoginDTO.UserLogin(currentUserDB.getId(),
+                    currentUserDB.getEmail(), currentUserDB.getName());
+            res.setUser(userLogin);
+        }
+        String access_token = this.securityUtil.createAccessToken(email, res.getUser());
+        res.setAccessToken(access_token);
+
+        // create refreshToken
+        String new_refresh_token = this.securityUtil.createRefreshToken(email, res);
+
+        // update user
+        this.userService.updateUserToken(new_refresh_token, email);
+        // set cookie
+        ResponseCookie resCookie = ResponseCookie.from("refresh_token", new_refresh_token)
+                .httpOnly(true)
+                .path("/")
+                .maxAge(refreshTokenExpiration) // thoi gian het han cua cookie
+                .build();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, resCookie.toString())
+                .body(res);
     }
 
 }

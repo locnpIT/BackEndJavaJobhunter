@@ -47,7 +47,7 @@ public class SecurityUtil {
     @Value("${phuocloc.jwt.refresh-token-validity-in-seconds}")
     private long refreshTokenExpiration;
 
-    public String createAccessToken(org.springframework.security.core.Authentication authentication,
+    public String createAccessToken(String email,
             RestLoginDTO.UserLogin dto) {
         Instant now = Instant.now();
         Instant validity = now.plus(this.accessTokenExpiration, ChronoUnit.SECONDS);
@@ -61,8 +61,8 @@ public class SecurityUtil {
         JwtClaimsSet claims = JwtClaimsSet.builder()
         .issuedAt(now)
         .expiresAt(validity)
-        .subject(authentication.getName())
-        .claim("user", dto) // Thêm một claim tùy chỉnh có tên là "user", chứa thông tin về người đăng nhập, dto.getUser())
+        .subject(email) 
+        .claim("user", dto) // Thêm một claim tùy chỉnh có tên là "user", chứa thông tin về người đăng nhập)
         .claim("permission", listAuthority)
         .build();
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
