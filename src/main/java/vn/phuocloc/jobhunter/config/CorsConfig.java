@@ -14,9 +14,14 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedHeaders(Arrays.asList("http://localhost:3000"));
+        // cho phep cac url ket noi toi backend
+        corsConfiguration.setAllowedHeaders(
+                Arrays.asList("http://localhost:3000", "http://localhost:4173", "http://localhost:5173"));
+        // cac method nao duoc ket noi
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "PUT", "POST", "DELETE", "OPTIONS")); // allowed method
-        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+        // cac phan header duoc phep gui len
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "x-no-retry"));
+        // gui kem cookie hay khong
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setMaxAge(3600L);
 

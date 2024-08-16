@@ -1,7 +1,10 @@
 package vn.phuocloc.jobhunter.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RestLoginDTO {
 
+    @JsonProperty("access_token")
     private String accessToken;
     private UserLogin user;
 
@@ -43,6 +46,27 @@ public class RestLoginDTO {
             this.name = name;
         }
 
+    }
+
+    public static class UserGetAccount {
+        private UserLogin user;
+
+        public UserLogin getUser() {
+            return user;
+        }
+
+        public void setUser(UserLogin user) {
+            this.user = user;
+        }
+
+        public UserGetAccount() {
+        }
+
+        public UserGetAccount(UserLogin user) {
+            this.user = user;
+        }
+
+        
     }
 
     public String getAccessToken() {
