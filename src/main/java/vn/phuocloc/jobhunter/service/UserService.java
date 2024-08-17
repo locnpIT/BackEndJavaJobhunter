@@ -11,11 +11,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import vn.phuocloc.jobhunter.domain.User;
-import vn.phuocloc.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.phuocloc.jobhunter.repository.UserRepository;
 import vn.phuocloc.jobhunter.response.ResCreateUserDTO;
 import vn.phuocloc.jobhunter.response.ResUpdateUserDTO;
 import vn.phuocloc.jobhunter.response.ResUserDTO;
+import vn.phuocloc.jobhunter.response.ResultPaginationDTO;
 
 @Service
 public class UserService {

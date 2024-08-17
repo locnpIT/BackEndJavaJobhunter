@@ -1,4 +1,4 @@
-package vn.phuocloc.jobhunter.domain.dto;
+package vn.phuocloc.jobhunter.response;
 
 public class ResultPaginationDTO {
     private Meta meta;
@@ -9,7 +9,7 @@ public class ResultPaginationDTO {
         private int pageSize;
         private int pages;
         private long total;
-        
+
         public int getPage() {
             return page;
         }

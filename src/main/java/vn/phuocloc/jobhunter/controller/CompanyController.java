@@ -6,7 +6,7 @@ import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
 import vn.phuocloc.jobhunter.domain.Company;
-import vn.phuocloc.jobhunter.domain.dto.ResultPaginationDTO;
+import vn.phuocloc.jobhunter.response.ResultPaginationDTO;
 import vn.phuocloc.jobhunter.service.CompanyService;
 import vn.phuocloc.jobhunter.util.annotation.ApiMessage;
 

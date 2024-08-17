@@ -6,8 +6,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import vn.phuocloc.jobhunter.domain.Company;
-import vn.phuocloc.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.phuocloc.jobhunter.repository.CompanyRepository;
+import vn.phuocloc.jobhunter.response.ResultPaginationDTO;
 
 import java.util.Optional;
 
