@@ -1,4 +1,4 @@
-package vn.phuocloc.jobhunter.domain;
+package vn.phuocloc.jobhunter.response;
 
 public class RestResponse<T> {
     private int statusCode;
