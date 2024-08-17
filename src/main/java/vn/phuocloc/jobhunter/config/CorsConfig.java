@@ -15,7 +15,7 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         // cho phep cac url ket noi toi backend
-        corsConfiguration.setAllowedHeaders(
+        corsConfiguration.setAllowedOrigins(
                 Arrays.asList("http://localhost:3000", "http://localhost:4173", "http://localhost:5173"));
         // cac method nao duoc ket noi
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "PUT", "POST", "DELETE", "OPTIONS")); // allowed method

@@ -11,12 +11,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import vn.phuocloc.jobhunter.domain.User;
-import vn.phuocloc.jobhunter.domain.dto.Meta;
-import vn.phuocloc.jobhunter.domain.dto.ResCreateUserDTO;
-import vn.phuocloc.jobhunter.domain.dto.ResUpdateUserDTO;
-import vn.phuocloc.jobhunter.domain.dto.ResUserDTO;
 import vn.phuocloc.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.phuocloc.jobhunter.repository.UserRepository;
+import vn.phuocloc.jobhunter.response.ResCreateUserDTO;
+import vn.phuocloc.jobhunter.response.ResUpdateUserDTO;
+import vn.phuocloc.jobhunter.response.ResUserDTO;
 
 @Service
 public class UserService {
@@ -50,7 +49,7 @@ public class UserService {
     public ResultPaginationDTO fetchAllUser(Specification<User> spec, Pageable pageable) {
         Page<User> pageUser = this.userRepository.findAll(spec, pageable);
         ResultPaginationDTO rs = new ResultPaginationDTO();
-        Meta mt = new Meta();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
 
         mt.setPage(pageable.getPageNumber() + 1);
         mt.setPageSize(pageable.getPageSize());
@@ -143,10 +142,8 @@ public class UserService {
         }
     }
 
-    public User getUserByRefreshTokenAndEmail(String token, String email){
-        return this.userRepository.findByRefreshTokenAndEmail(token, email); 
+    public User getUserByRefreshTokenAndEmail(String token, String email) {
+        return this.userRepository.findByRefreshTokenAndEmail(token, email);
     }
-
-
 
 }

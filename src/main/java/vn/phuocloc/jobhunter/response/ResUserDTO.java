@@ -1,17 +1,35 @@
-package vn.phuocloc.jobhunter.domain.dto;
+package vn.phuocloc.jobhunter.response;
 
 import java.time.Instant;
 
 import vn.phuocloc.jobhunter.util.constant.GenderEnum;
 
-public class ResCreateUserDTO {
+public class ResUserDTO {
+
     private long id;
-    private String name;
     private String email;
-    private int age;
+    private String name;
     private GenderEnum gender;
     private String address;
+    private int age;
+    private Instant updatedAt;
     private Instant createdAt;
+
+    public ResUserDTO(long id, String email, String name, GenderEnum gender, String address, int age, Instant updatedAt,
+            Instant createdAt) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.gender = gender;
+        this.address = address;
+        this.age = age;
+        this.updatedAt = updatedAt;
+        this.createdAt = createdAt;
+    }
+
+    public ResUserDTO() {
+
+    }
 
     public long getId() {
         return id;
@@ -67,6 +85,14 @@ public class ResCreateUserDTO {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

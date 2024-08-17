@@ -52,7 +52,7 @@ public class Company {
         this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
                 ? SecurityUtil.getCurrentUserLogin().get()
                 : "";
-        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
     public long getId() {

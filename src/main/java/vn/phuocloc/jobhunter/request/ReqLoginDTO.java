@@ -1,8 +1,8 @@
-package vn.phuocloc.jobhunter.domain.dto;
+package vn.phuocloc.jobhunter.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class LoginDTO {
+public class ReqLoginDTO {
 
     @NotBlank(message = "Username không được để trống")
     private String username;
@@ -10,11 +10,11 @@ public class LoginDTO {
     @NotBlank(message = "Password không được để trống")
     private String password;
 
-    public LoginDTO() {
+    public ReqLoginDTO() {
 
     }
 
-    public LoginDTO(String username, String password) {
+    public ReqLoginDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }

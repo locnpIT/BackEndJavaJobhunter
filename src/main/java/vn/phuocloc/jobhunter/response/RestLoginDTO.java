@@ -1,4 +1,4 @@
-package vn.phuocloc.jobhunter.domain.dto;
+package vn.phuocloc.jobhunter.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

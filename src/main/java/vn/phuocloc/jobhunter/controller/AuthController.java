@@ -2,7 +2,6 @@ package vn.phuocloc.jobhunter.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.micrometer.core.ipc.http.HttpSender.Response;
 import jakarta.validation.Valid;
 import vn.phuocloc.jobhunter.domain.User;
-import vn.phuocloc.jobhunter.domain.dto.LoginDTO;
-import vn.phuocloc.jobhunter.domain.dto.RestLoginDTO;
-import vn.phuocloc.jobhunter.domain.dto.RestLoginDTO.UserLogin;
+import vn.phuocloc.jobhunter.request.ReqLoginDTO;
+import vn.phuocloc.jobhunter.response.RestLoginDTO;
+import vn.phuocloc.jobhunter.response.RestLoginDTO.UserLogin;
 import vn.phuocloc.jobhunter.service.UserService;
 import vn.phuocloc.jobhunter.util.SecurityUtil;
 import vn.phuocloc.jobhunter.util.annotation.ApiMessage;
@@ -49,7 +47,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<RestLoginDTO> login(@Valid @RequestBody LoginDTO loginDto) {
+    public ResponseEntity<RestLoginDTO> login(@Valid @RequestBody ReqLoginDTO loginDto) {
         // Nạp input gồm username/password vào Security
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(), loginDto.getPassword());

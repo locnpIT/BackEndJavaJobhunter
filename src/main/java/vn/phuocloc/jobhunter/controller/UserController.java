@@ -18,9 +18,9 @@ import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
 import vn.phuocloc.jobhunter.domain.User;
-import vn.phuocloc.jobhunter.domain.dto.ResCreateUserDTO;
-import vn.phuocloc.jobhunter.domain.dto.ResUserDTO;
 import vn.phuocloc.jobhunter.domain.dto.ResultPaginationDTO;
+import vn.phuocloc.jobhunter.response.ResCreateUserDTO;
+import vn.phuocloc.jobhunter.response.ResUserDTO;
 import vn.phuocloc.jobhunter.service.UserService;
 import vn.phuocloc.jobhunter.util.annotation.ApiMessage;
 import vn.phuocloc.jobhunter.util.error.IdInvalidException;
