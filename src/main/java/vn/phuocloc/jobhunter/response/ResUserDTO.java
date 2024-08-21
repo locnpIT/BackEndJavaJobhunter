@@ -2,6 +2,7 @@ package vn.phuocloc.jobhunter.response;
 
 import java.time.Instant;
 
+import vn.phuocloc.jobhunter.domain.Company;
 import vn.phuocloc.jobhunter.util.constant.GenderEnum;
 
 public class ResUserDTO {
@@ -14,9 +15,41 @@ public class ResUserDTO {
     private int age;
     private Instant updatedAt;
     private Instant createdAt;
+    private CompanyUser company;
+
+    public static class CompanyUser {
+        private long id;
+        private String name;
+
+        public CompanyUser() {
+
+        }
+
+        public CompanyUser(long id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+    }
 
     public ResUserDTO(long id, String email, String name, GenderEnum gender, String address, int age, Instant updatedAt,
-            Instant createdAt) {
+            Instant createdAt, CompanyUser company) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -25,6 +58,7 @@ public class ResUserDTO {
         this.age = age;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
+        this.company = company;
     }
 
     public ResUserDTO() {
@@ -93,6 +127,14 @@ public class ResUserDTO {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public CompanyUser getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyUser company) {
+        this.company = company;
     }
 
 }

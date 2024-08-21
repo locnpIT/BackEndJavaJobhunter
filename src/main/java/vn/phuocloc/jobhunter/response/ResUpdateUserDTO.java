@@ -12,6 +12,37 @@ public class ResUpdateUserDTO {
     private String address;
     private int age;
     private Instant updatedAt;
+    private UserCompany company;
+
+    public static class UserCompany {
+        private long id;
+        private String name;
+
+        public UserCompany() {
+        }
+
+        public UserCompany(long id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+    }
 
     public long getId() {
         return id;
@@ -59,6 +90,14 @@ public class ResUpdateUserDTO {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public UserCompany getCompany() {
+        return company;
+    }
+
+    public void setCompany(UserCompany company) {
+        this.company = company;
     }
 
 }

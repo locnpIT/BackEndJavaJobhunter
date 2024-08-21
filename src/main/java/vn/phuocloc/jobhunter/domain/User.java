@@ -161,4 +161,12 @@ public class User {
         this.updatedAt = Instant.now();
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
 }
