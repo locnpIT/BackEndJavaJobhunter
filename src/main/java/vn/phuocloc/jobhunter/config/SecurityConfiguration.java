@@ -29,7 +29,7 @@ import vn.phuocloc.jobhunter.util.SecurityUtil;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
-    @Value("${phuocloc.jwt.base64-secret}")
+    @Value("${phuocloc.jwt.base64-secret}") 
     private String jwtKey;
 
     @Bean
