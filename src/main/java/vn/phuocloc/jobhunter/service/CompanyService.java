@@ -38,11 +38,11 @@ public class CompanyService {
         mt.setPage(pageable.getPageNumber() + 1);
         mt.setPageSize(pageable.getPageSize());
 
-        mt.setPages(pageCompany.getTotalPages());
-        mt.setTotal(pageCompany.getTotalElements());
+        mt.setPages(pageCompany.getTotalPages());  // tong so trang
+        mt.setTotal(pageCompany.getTotalElements()); // tong so phan tu
 
         rs.setMeta(mt);
-        rs.setResult(pageCompany.getContent());
+        rs.setResult(pageCompany.getContent());  // danh sach phan tu o trang hien tai
         return rs;
     }
 
