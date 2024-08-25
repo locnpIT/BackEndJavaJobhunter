@@ -29,7 +29,7 @@ import vn.phuocloc.jobhunter.util.SecurityUtil;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
-    @Value("${phuocloc.jwt.base64-secret}") 
+    @Value("${phuocloc.jwt.base64-secret}")
     private String jwtKey;
 
     @Bean
@@ -37,7 +37,7 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+@Bean
     public SecurityFilterChain filterChain(
             HttpSecurity http,
             CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
@@ -46,7 +46,7 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(
                         authz -> authz
-                                .requestMatchers("/", "/api/v1/auth/login", "/api/v1/auth/refresh").permitAll()
+                                .requestMatchers("/", "/api/v1/auth/login", "/api/v1/auth/refresh", "/storage/**").permitAll()
                                 .anyRequest().authenticated())
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(customAuthenticationEntryPoint))
