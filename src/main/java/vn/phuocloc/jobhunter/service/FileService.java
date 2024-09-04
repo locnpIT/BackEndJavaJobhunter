@@ -38,7 +38,7 @@ public class FileService {
         }
     }
 
-    public void store(MultipartFile file, String folder) throws URISyntaxException, IOException {
+    public String store(MultipartFile file, String folder) throws URISyntaxException, IOException {
 
         // create unique file name
         String finalName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
@@ -47,8 +47,9 @@ public class FileService {
         Path path = Paths.get(uri);
         try (InputStream inputStream = file.getInputStream()) {
             Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-
         }
+
+        return finalName;
 
     }
 
