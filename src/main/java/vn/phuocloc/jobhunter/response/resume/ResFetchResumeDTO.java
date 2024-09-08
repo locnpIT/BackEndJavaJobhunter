@@ -1,71 +1,27 @@
-package vn.phuocloc.jobhunter.domain;
+package vn.phuocloc.jobhunter.response.resume;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import vn.phuocloc.jobhunter.util.constant.ResumeStateEnum;
 
 import java.time.Instant;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import vn.phuocloc.jobhunter.util.SecurityUtil;
-import vn.phuocloc.jobhunter.util.constant.ResumeStateEnum;
-
-@Entity
-@Table(name = "resumes")
-public class Resume {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ResFetchResumeDTO {
     private long id;
-
-    @NotBlank(message = "Email không được để trống")
     private String email;
-
-    @NotBlank(message = "Url không được để trốngd")
     private String url;
 
     @Enumerated(EnumType.STRING)
     private ResumeStateEnum status;
 
     private Instant createdAt;
-
     private Instant updatedAt;
 
     private String createdBy;
-
     private String updatedBy;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "job_id")
-    private Job job;
-
-    @PrePersist
-    public void handleBeforeCreate() {
-        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
-                ? SecurityUtil.getCurrentUserLogin().get()
-                : "";
-
-        this.createdAt = Instant.now();
-    }
-
-    @PreUpdate
-    public void handleBeforeUpdate() {
-        this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
-                ? SecurityUtil.getCurrentUserLogin().get()
-                : "";
-        this.updatedAt = Instant.now();
-    }
+    private UserResume user;
+    private JobResume job;
 
     public long getId() {
         return id;
@@ -131,20 +87,83 @@ public class Resume {
         this.updatedBy = updatedBy;
     }
 
-    public User getUser() {
+    public UserResume getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserResume user) {
         this.user = user;
     }
 
-    public Job getJob() {
+    public JobResume getJob() {
         return job;
     }
 
-    public void setJob(Job job) {
+    public void setJob(JobResume job) {
         this.job = job;
     }
 
+    // class
+    public static class UserResume {
+        private long id;
+        private String name;
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public UserResume(long id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public UserResume() {
+
+        }
+
+    }
+
+    // class
+    public static class JobResume {
+        private long id;
+        private String name;
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public JobResume(long id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public JobResume() {
+
+        }
+
+    }
 }
